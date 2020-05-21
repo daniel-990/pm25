@@ -7,8 +7,17 @@
 // comment these two lines if using hardware serial
 #include <SoftwareSerial.h>
 #include <FastLED.h>
+
+/*librerias del la pantalla oled*/
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+
+/*modelo de la pantalla oled SPI OLED 0,96” Driver SSD1306*/
+#include <Adafruit_SSD1306.h>
+
 //SoftwareSerial pmsSerial(2, 3); //se definen los pines arduino
-SoftwareSerial pmsSerial(D6, 3); //se definen los pines 
+SoftwareSerial pmsSerial(D3, 3); //se definen los pines 
 
 /*#define NUM_LEDS 1
 #define DATA_PIN D5 //13 - pines en arduino
@@ -17,6 +26,19 @@ SoftwareSerial pmsSerial(D6, 3); //se definen los pines
 #define NUM_LEDS 1
 #define DATA_PIN D1 //12 = d6
 #define CLOCK_PIN D2 //4 = d2
+
+/*pines de la pantalla oled*/
+#define OLED_MOSI D5  //D5 -> PIN ESP8266
+#define OLED_CLK 16   //D0 -> PIN ESP8266
+#define OLED_DC D7    //D7 -> PIN ESP8266
+#define OLED_CS D8    //D8 -> PIN ESP8266
+#define OLED_RESET D6 //D6 -> PIN ESP8266
+
+/* A continuación informamos al soft del driver,cuales pines del arduino usamos pantalla Oled*/
+Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
+#if (SSD1306_LCDHEIGHT != 64)
+//#error("Height incorrect, please fix Adafruit_SH1106.h!");
+#endif
 
 // Array leds
 CRGB leds[NUM_LEDS];
@@ -28,6 +50,16 @@ void setup() {
   // sensor baud rate is 9600
   pmsSerial.begin(9600);
   FastLED.addLeds<DOTSTAR, DATA_PIN,CLOCK_PIN,BGR >(leds, NUM_LEDS);
+
+    /*pantalla oled parametros*/
+    display.begin(SSD1306_SWITCHCAPVCC); // Inicia el display OLED (Carga Buffer)
+    display.clearDisplay(); // Borrar imagen en el OLED
+    display.setTextSize(1); // Definir Tamaño del Texto
+    display.setTextColor(WHITE); // Definir color del texto. (mono=>Blanco)
+    display.setCursor(0,10 ); // Definir posición inicio texto Columna (0) Fila (10)
+    display.println("Activando OLED"); // Carga la información al buffer
+    display.display(); // Actualiza display con datos en Buffer
+    delay(1000); // Demora de 2 segundos.
 }
 
 struct pms5003data {
@@ -64,7 +96,35 @@ void loop() {
     Serial.print("Particles > 10.0 um / 0.1L air:"); Serial.println(data.particles_100um);
     Serial.println("---------------------------------------");
 
-  if(data.particles_25um <= 10){
+    /*pantalla oled parametros*/
+    display.clearDisplay(); // Borrar imagen en el OLED
+    display.setTextSize(0.5); // Definir Tamaño del Texto
+    display.setTextColor(WHITE);
+    display.setCursor(0,1); // Definir posición inicio texto Columna (0) Fila (10)
+    display.println("Pm 2.5: "); // Carga la información al buffer
+    display.println(data.particles_25um);  // float to x decimal places
+    display.display(); // Actualiza display con datos en Buffer
+    delay(1000); // Demora de 2 segundos.
+
+    display.clearDisplay(); // Borrar imagen en el OLED
+    display.setTextSize(0.5); // Definir Tamaño del Texto
+    display.setTextColor(WHITE);
+    display.setCursor(0,1); // Definir posición inicio texto Columna (0) Fila (10)
+    display.println("Pm 1.0: "); // Carga la información al buffer
+    display.println(data.particles_10um);  // float to x decimal places
+    display.display(); // Actualiza display con datos en Buffer
+    delay(1000); // Demora de 2 segundos.
+
+    display.clearDisplay(); // Borrar imagen en el OLED
+    display.setTextSize(0.5); // Definir Tamaño del Texto
+    display.setTextColor(WHITE);
+    display.setCursor(0,1); // Definir posición inicio texto Columna (0) Fila (10)
+    display.println("Pm 10: "); // Carga la información al buffer
+    display.println(data.particles_100um);  // float to x decimal places
+    display.display(); // Actualiza display con datos en Buffer
+    delay(1000); // Demora de 2 segundos.
+
+if(data.particles_25um <= 10){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Green;
         FastLED.show();
