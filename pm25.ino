@@ -131,18 +131,26 @@ if(data.particles_25um <= 10){
         delay(1000);
       }
   }
-  
-  if(data.particles_25um >= 300){
+
+  if(data.particles_25um >= 11){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Yellow;
+        FastLED.show();
+        delay(1000);
+      }
+  }
+  
+  if(data.particles_25um >= 40){
+      for (int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CRGB::Orange;
         FastLED.show();
         delay(1000);
       }    
   }
   
-  if(data.particles_25um >= 500){
+  if(data.particles_25um >= 100){
       for (int i = 0; i < NUM_LEDS; i++){
-        leds[i] = CRGB::Orange;
+        leds[i] = CRGB::Brown;
         FastLED.show();
         delay(1000);
       }    
@@ -157,7 +165,7 @@ if(data.particles_25um <= 10){
       }    
   }
   
-  if(data.particles_25um >= 1500){
+  if(data.particles_25um >= 1000){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Red;
         FastLED.show();
