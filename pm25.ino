@@ -23,7 +23,7 @@ SoftwareSerial pmsSerial(D3, 3); //se definen los pines
 #define DATA_PIN D5 //13 - pines en arduino
 #define CLOCK_PIN D0 //12 - pines en arduino */
 
-#define NUM_LEDS 1
+#define NUM_LEDS 3
 #define DATA_PIN D1 //12 = d6
 #define CLOCK_PIN D2 //4 = d2
 
@@ -57,7 +57,7 @@ void setup() {
     display.setTextSize(1); // Definir Tamaño del Texto
     display.setTextColor(WHITE); // Definir color del texto. (mono=>Blanco)
     display.setCursor(0,10 ); // Definir posición inicio texto Columna (0) Fila (10)
-    display.println("Activando OLED"); // Carga la información al buffer
+    display.println("Activando datos"); // Carga la información al buffer
     display.display(); // Actualiza display con datos en Buffer
     delay(1000); // Demora de 2 segundos.
 }
@@ -101,8 +101,8 @@ void loop() {
     display.setTextSize(0.5); // Definir Tamaño del Texto
     display.setTextColor(WHITE);
     display.setCursor(0,1); // Definir posición inicio texto Columna (0) Fila (10)
-    display.println("Pm 2.5: "); // Carga la información al buffer
-    display.println(data.particles_25um);  // float to x decimal places
+    display.println("Pm 1.0: "); // Carga la información al buffer
+    display.println(data.pm10_standard);  // float to x decimal places
     display.display(); // Actualiza display con datos en Buffer
     delay(1000); // Demora de 2 segundos.
 
@@ -110,8 +110,8 @@ void loop() {
     display.setTextSize(0.5); // Definir Tamaño del Texto
     display.setTextColor(WHITE);
     display.setCursor(0,1); // Definir posición inicio texto Columna (0) Fila (10)
-    display.println("Pm 1.0: "); // Carga la información al buffer
-    display.println(data.particles_10um);  // float to x decimal places
+    display.println("Pm 2.5: "); // Carga la información al buffer
+    display.println(data.pm25_standard);  // float to x decimal places
     display.display(); // Actualiza display con datos en Buffer
     delay(1000); // Demora de 2 segundos.
 
@@ -120,35 +120,35 @@ void loop() {
     display.setTextColor(WHITE);
     display.setCursor(0,1); // Definir posición inicio texto Columna (0) Fila (10)
     display.println("Pm 10: "); // Carga la información al buffer
-    display.println(data.particles_100um);  // float to x decimal places
+    display.println(data.pm100_standard);  // float to x decimal places
     display.display(); // Actualiza display con datos en Buffer
     delay(1000); // Demora de 2 segundos.
 
-if(data.particles_25um <= 10){
+if(data.pm25_standard <= 20){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Green;
         FastLED.show();
         delay(1000);
       }
   }
-
-  if(data.particles_25um >= 11){
+  
+  if(data.pm25_standard >= 21){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Yellow;
         FastLED.show();
         delay(1000);
-      }
+      }    
   }
   
-  if(data.particles_25um >= 40){
+  if(data.pm25_standard >= 50){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Orange;
         FastLED.show();
         delay(1000);
       }    
   }
-  
-  if(data.particles_25um >= 100){
+
+  if(data.pm25_standard >= 100){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Brown;
         FastLED.show();
@@ -157,7 +157,7 @@ if(data.particles_25um <= 10){
   }
 
   
-  if(data.particles_25um >= 800){
+  if(data.pm25_standard >= 200){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Purple;
         FastLED.show();
@@ -165,7 +165,7 @@ if(data.particles_25um <= 10){
       }    
   }
   
-  if(data.particles_25um >= 1000){
+  if(data.pm25_standard >= 305){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Red;
         FastLED.show();
