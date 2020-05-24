@@ -57,7 +57,7 @@ void setup() {
     display.setTextSize(1); // Definir Tamaño del Texto
     display.setTextColor(WHITE); // Definir color del texto. (mono=>Blanco)
     display.setCursor(0,10 ); // Definir posición inicio texto Columna (0) Fila (10)
-    display.println("Activando datos"); // Carga la información al buffer
+    display.println("Activando datos del sensor de calidad del aire"); // Carga la información al buffer
     display.display(); // Actualiza display con datos en Buffer
     delay(1000); // Demora de 2 segundos.
 }
@@ -128,7 +128,12 @@ if(data.pm25_standard <= 20){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Green;
         FastLED.show();
-        delay(1000);
+        delay(100);
+      }
+      for (int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        delay(100);
       }
   }
   
@@ -136,44 +141,67 @@ if(data.pm25_standard <= 20){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Yellow;
         FastLED.show();
-        delay(1000);
-      }    
+        delay(100);
+      }
+      for (int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        delay(100);
+      }   
   }
   
   if(data.pm25_standard >= 50){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Orange;
         FastLED.show();
-        delay(1000);
-      }    
+        delay(100);
+      }
+      for (int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        delay(100);
+      }
   }
 
   if(data.pm25_standard >= 100){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Brown;
         FastLED.show();
-        delay(1000);
-      }    
+        delay(100);
+      }
+      for (int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        delay(100);
+      }   
   }
 
-  
   if(data.pm25_standard >= 200){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Purple;
         FastLED.show();
-        delay(1000);
-      }    
+        delay(100);
+      }
+      for (int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        delay(100);
+      }   
   }
   
   if(data.pm25_standard >= 305){
       for (int i = 0; i < NUM_LEDS; i++){
         leds[i] = CRGB::Red;
         FastLED.show();
-        delay(1000);
+        delay(100);
+      }
+      for (int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        delay(100);
       }
   }
 
-    
   }
 }
 
